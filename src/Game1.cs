@@ -2,12 +2,9 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace CircusPop
 {
@@ -16,7 +13,8 @@ namespace CircusPop
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private readonly Sprite _clown = new(new Vector2(100.0f, 120.0f), Vector2.Zero);
+        private Sprite _clown;
+        private Texture2D clownTexture;
         private Texture2D trampolineTexture;
         private Vector2 trampolinePosition;
 
@@ -56,7 +54,7 @@ namespace CircusPop
 
         protected override void Initialize()
         {
-
+            _clown = new(new Vector2(100.0f, 120.0f), Vector2.Zero);
 
             this.Services.AddService(typeof(IMovingObject), _clown);
             this.Components.Add(new VelocityDisplay(this));
@@ -72,7 +70,8 @@ namespace CircusPop
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _clown.Texture = Content.Load<Texture2D>("clown");
+            clownTexture = Content.Load<Texture2D>("clown");
+            _clown.Texture = clownTexture;
 
             trampolineTexture = Content.Load<Texture2D>("trampoline");
 
@@ -120,6 +119,7 @@ namespace CircusPop
                 trampolinePosition = new Vector2(100.0f, (float)(GraphicsDevice.Viewport.Height - trampolineTexture.Height));
 
                 base.Update(gameTime);
+                previousKeyboardState = keyboardState;
                 return;
             }
 
@@ -157,9 +157,9 @@ namespace CircusPop
             //_clownPosition += _clownVelocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             _clown.Position += _clown.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            int MaxX = GraphicsDevice.Viewport.Width - _clown.Texture.Width;
+            int MaxX = GraphicsDevice.Viewport.Width - _clown.Width;
             int MinX = 0;
-            int MaxY = GraphicsDevice.Viewport.Height - _clown.Texture.Height;
+            int MaxY = GraphicsDevice.Viewport.Height - _clown.Height;
             int MinY = 0;
 
             if (_clown.Position.X > MaxX)
@@ -195,7 +195,7 @@ namespace CircusPop
                 trampolineTexture.Width, trampolineTexture.Height);
 
             Rectangle clownRectangle = new Rectangle((int)_clown.Position.X, (int)_clown.Position.Y,
-                _clown.Texture.Width, _clown.Texture.Height);
+                _clown.Width, _clown.Height);
 
 
             if (trampolineRectangle.Intersects(clownRectangle))
@@ -217,7 +217,7 @@ namespace CircusPop
                 _clown.Velocity.Y = newY;
 
                 _clown.Velocity.Y *= -1;
-                _clown.Position.Y = trampolinePosition.Y - _clown.Texture.Height;
+                _clown.Position.Y = trampolinePosition.Y - _clown.Height;
 
                 bounce.Play();
             }
@@ -251,6 +251,7 @@ namespace CircusPop
             _clown.Velocity.Y += 16.0f;
 
             base.Update(gameTime);
+            previousKeyboardState = keyboardState;
         }
 
         protected override void Draw(GameTime gameTime)

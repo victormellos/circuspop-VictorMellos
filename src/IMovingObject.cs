@@ -4,6 +4,6 @@ namespace CircusPop;
 
 interface IMovingObject
 {
-    Vector2 GetPosition();
-    Vector2 GetVelocity();
+    Vector2 Position { get; }
+    Vector2 Velocity { get; }
 }

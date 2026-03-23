@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CircusPop;
 
-public class VelocityDisplay : Microsoft.Xna.Framework.DrawableGameComponent
+public class VelocityDisplay : DrawableGameComponent
 {
     private IMovingObject subject = null;
 
@@ -40,12 +40,12 @@ public class VelocityDisplay : Microsoft.Xna.Framework.DrawableGameComponent
     public override void Draw(GameTime gameTime)
     {
         primitiveBatch.Begin(PrimitiveType.LineList);
-        primitiveBatch.AddVertex(subject.GetPosition(), Color.Blue);
-        Vector2 nextSpot = subject.GetPosition() + (subject.GetVelocity() * (float)gameTime.ElapsedGameTime.TotalSeconds) * 10;
+        primitiveBatch.AddVertex(subject.Position, Color.Blue);
+        Vector2 nextSpot = subject.Position + (subject.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds) * 10;
         primitiveBatch.AddVertex(nextSpot, Color.Red);
 
         primitiveBatch.AddVertex(nextSpot, Color.Red);
-        if (subject.GetVelocity().Y >= 0.0f)
+        if (subject.Velocity.Y >= 0.0f)
         {
             nextSpot += new Vector2(-10.0f, -10.0f);
         }
