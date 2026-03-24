@@ -19,6 +19,11 @@ public class ClownGame : Game
     private Sprite trampoline;
 
     private SoundEffect bounce;
+    
+    private SpriteFont _textFont;
+
+
+    private int Score;
 
     public ClownGame()
     {
@@ -48,6 +53,8 @@ public class ClownGame : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         bounce = Content.Load<SoundEffect>("bounce");
+
+        _textFont = Content.Load<SpriteFont>("font");
 
         clown.Texture = Content.Load<Texture2D>("clown");
 
@@ -83,7 +90,7 @@ public class ClownGame : Game
         if (trampolineRect.Intersects(clownRect))
         {
             int angle = trampolineRect.Center.X - clownRect.Center.X + 90;
-
+    
             clown.Velocity.X = 980f * (float)Math.Cos(MathHelper.ToRadians(angle));
             clown.Velocity.Y = 980f * (float)Math.Sin(MathHelper.ToRadians(angle)) * -1; // upward
             
@@ -126,8 +133,14 @@ public class ClownGame : Game
 
         // TODO: Add your drawing code here
         _spriteBatch.Begin();
+        
         _spriteBatch.Draw(clown.Texture, clown.Position, Color.White);
         _spriteBatch.Draw(trampoline.Texture, trampoline.Position, Color.White);
+
+        //tex
+
+        //_spriteBatch.DrawString(_textFont, "", new Vector2((float)GraphicsDevice.Viewport.Width - _textFont.MeasureString(), 0), Color.White);
+
         _spriteBatch.End();
 
         base.Draw(gameTime);
