@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace VictorMellos;
 
-public class Game1 : Game
+public class ClownGame : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
@@ -20,12 +20,12 @@ public class Game1 : Game
 
     private SoundEffect bounce;
 
-    public Game1()
+    public ClownGame()
     {
         _graphics = new GraphicsDeviceManager(this);
 
         _graphics.PreferredBackBufferWidth = 800;
-        _graphics.PreferredBackBufferHeight = 800;
+        _graphics.PreferredBackBufferHeight = 500;
 
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
