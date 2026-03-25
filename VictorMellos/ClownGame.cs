@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using System.Collections.Generic;
 
 
 namespace VictorMellos;
@@ -14,16 +15,17 @@ public class ClownGame : Game
 
     private int maxX;
     private int maxY;
-    private Sprite clown;
+    private Character clown;
 
-    private Sprite trampoline;
+    private Character trampoline;
+
+    private List<Player> players;
 
     private SoundEffect bounce;
     
-    private SpriteFont _textFont;
+    //private SpriteFont _textFont;
 
 
-    private int Score;
 
     public ClownGame()
     {
@@ -40,10 +42,12 @@ public class ClownGame : Game
     {
         // TODO: Add your initialization logic here
 
-        clown = new Sprite(new Vector2(100f, 120f), Vector2.Zero);
+        players = new List<Player>();
 
-        trampoline = new Sprite(new Vector2(100f, 120f), Vector2.Zero);
+        var clown1 = new Character(new Vector2(100f, 120f), Vector2.Zero);
+        var trampoline1 = new Character(new Vector2(100f, 400f), Vector2.Zero);
 
+        players.Add(new Player(trampoline1, clown1, Keys.Left, Keys.Right));
 
         base.Initialize();
     }
@@ -54,75 +58,96 @@ public class ClownGame : Game
 
         bounce = Content.Load<SoundEffect>("bounce");
 
-        _textFont = Content.Load<SpriteFont>("font");
+        foreach (var player in players)
+        {
+            player.Clown.Sprite = new Sprite();
+            player.Clown.Sprite.Texture = Content.Load<Texture2D>("clown");
 
-        clown.Texture = Content.Load<Texture2D>("clown");
+            player.Trampoline.Sprite = new Sprite();
+            player.Trampoline.Sprite.Texture = Content.Load<Texture2D>("Trampoline");
 
-        trampoline.Texture = Content.Load<Texture2D>("Trampoline");
+                player.Trampoline.Position = new Vector2(
+                    player.Trampoline.Position.X,
+                    GraphicsDevice.Viewport.Height - player.Trampoline.Height
+                );
+        }
 
-        trampoline.Position = new Vector2(clown.Position.X - clown.Width, GraphicsDevice.Viewport.Height - trampoline.Height);
+        // trampoline.Position = new Vector2(clown.Position.X - clown.Width, GraphicsDevice.Viewport.Height - trampoline.Height);
 
-        maxX = GraphicsDevice.Viewport.Width - clown.Width;
-        maxY = GraphicsDevice.Viewport.Height - clown.Height;   
+        // maxX = GraphicsDevice.Viewport.Width - clown.Width;
+        // maxY = GraphicsDevice.Viewport.Height - clown.Height;   
 
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
-
-        KeyboardState keyboardState = Keyboard.GetState();
-        if (keyboardState.IsKeyDown(Keys.Left)) trampoline.Position.X -= 10f;
-        if (keyboardState.IsKeyDown(Keys.Right)) trampoline.Position.X += 10f;
-
-        GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
-        trampoline.Position.X += gamePadState.ThumbSticks.Left.X * 15f;
-
-
-
-        Rectangle trampolineRect = new Rectangle((int)trampoline.Position.X, (int)trampoline.Position.Y, 
-        trampoline.Width, trampoline.Height);
-
-        Rectangle clownRect = new Rectangle((int)clown.Position.X, (int)clown.Position.Y, clown.Width, clown.Height);
-
-
-        if (trampolineRect.Intersects(clownRect))
+        foreach (var player in players)
         {
-            int angle = trampolineRect.Center.X - clownRect.Center.X + 90;
-    
-            clown.Velocity.X = 980f * (float)Math.Cos(MathHelper.ToRadians(angle));
-            clown.Velocity.Y = 980f * (float)Math.Sin(MathHelper.ToRadians(angle)) * -1; // upward
-            
-            bounce.Play();
+            player.HandleInput();
         }
-
-
-
-        trampoline.Position.X = MathHelper.Clamp(trampoline.Position.X, 0, GraphicsDevice.Viewport.Width - trampoline.Texture.Width);
-
-        //move clown by velocity (frame-rate independent)
-
-        clown.Position += clown.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-        clown.Velocity.Y += 16f;
-
-        if (clown.Position.Y > maxY)
+        
+       foreach (var player in players)
         {
-            clown.Velocity.Y *= -1;  // reverse velocity to bounce back up
-            clown.Position.Y = maxY; // clamp so it doesn't escape
-        }
+            var clown = player.Clown;
+            var trampoline = player.Trampoline;
 
-        if (clown.Position.X > maxX)
-        {
-            // We've hit the right side, reverse to create a bounce
-            clown.Velocity.X *= -1;
-            clown.Position.X = maxX;
-        }
-        else if (clown.Position.X < 0)
-        {
-            // We've hit the left side, reverse to create a bounce
-            clown.Velocity.X *= -1;
-            clown.Position.X = 0;
+            // 1. Clamp do trampolim
+            trampoline.Position.X = MathHelper.Clamp(
+                trampoline.Position.X,
+                0,
+                GraphicsDevice.Viewport.Width - trampoline.Width
+            );
+
+            // 2. Movimento do clown
+            clown.Position += clown.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            // 3. Gravidade
+            clown.Velocity.Y += 16f;
+
+            // 4. Limites da tela
+            int maxX = GraphicsDevice.Viewport.Width - clown.Width;
+            int maxY = GraphicsDevice.Viewport.Height - clown.Height;
+
+            if (clown.Position.Y > maxY)
+            {
+                clown.Velocity.Y *= -1;
+                clown.Position.Y = maxY;
+            }
+
+            if (clown.Position.X > maxX)
+            {
+                clown.Velocity.X *= -1;
+                clown.Position.X = maxX;
+            }
+            else if (clown.Position.X < 0)
+            {
+                clown.Velocity.X *= -1;
+                clown.Position.X = 0;
+            }
+
+            // 5. Agora sim cria os rectangles atualizados
+            Rectangle trampolineRect = new Rectangle(
+                (int)trampoline.Position.X,
+                (int)trampoline.Position.Y,
+                trampoline.Width,
+                trampoline.Height);
+
+            Rectangle clownRect = new Rectangle(
+                (int)clown.Position.X,
+                (int)clown.Position.Y,
+                clown.Width,
+                clown.Height);
+
+            // 6. Colisão
+            if (trampolineRect.Intersects(clownRect))
+            {
+                int angle = trampolineRect.Center.X - clownRect.Center.X + 90;
+
+                clown.Velocity.X = 980f * (float)Math.Cos(MathHelper.ToRadians(angle));
+                clown.Velocity.Y = 980f * (float)Math.Sin(MathHelper.ToRadians(angle)) * -1;
+
+                bounce.Play();
+            }
         }
         base.Update(gameTime);
     }
@@ -134,12 +159,11 @@ public class ClownGame : Game
         // TODO: Add your drawing code here
         _spriteBatch.Begin();
         
-        _spriteBatch.Draw(clown.Texture, clown.Position, Color.White);
-        _spriteBatch.Draw(trampoline.Texture, trampoline.Position, Color.White);
-
-        //tex
-
-        //_spriteBatch.DrawString(_textFont, "", new Vector2((float)GraphicsDevice.Viewport.Width - _textFont.MeasureString(), 0), Color.White);
+        foreach (var player in players)
+        {
+            _spriteBatch.Draw(player.Clown.Sprite.Texture, player.Clown.Position, Color.White);
+            _spriteBatch.Draw(player.Trampoline.Sprite.Texture, player.Trampoline.Position, Color.White);
+        }
 
         _spriteBatch.End();
 

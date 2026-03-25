@@ -1,18 +1,14 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 public class Sprite
 {
-    public Texture2D Texture { get; set; }
-    public Vector2 Position;
-    public Vector2 Velocity;
+    public Texture2D Texture;
 
-    public int Width => Texture.Width;
-    public int Height => Texture.Height;
-
-    public Sprite(Vector2 initialPosition, Vector2 initialVelocity)
+    public void Draw(SpriteBatch spriteBatch, Vector2 position)
     {
-        Position = initialPosition;
-        Velocity = initialVelocity;
+        
+        spriteBatch.Draw(Texture, position, Color.White);
     }
 }
