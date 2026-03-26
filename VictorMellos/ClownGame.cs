@@ -13,12 +13,6 @@ public class ClownGame : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    private int maxX;
-    private int maxY;
-    private Character clown;
-
-    private Character trampoline;
-
     private List<Player> players;
 
     private SoundEffect bounce;
@@ -80,6 +74,14 @@ public class ClownGame : Game
     }
 
     protected override void Update(GameTime gameTime)
+    /*
+    Ordem para verificar:
+    Input
+    Movimento
+    Física (gravidade, velocidade, etc.)
+    Colisão
+    Resposta da colisão
+    */
     {
         foreach (var player in players)
         {
@@ -125,23 +127,12 @@ public class ClownGame : Game
                 clown.Position.X = 0;
             }
 
-            // 5. Agora sim cria os rectangles atualizados
-            Rectangle trampolineRect = new Rectangle(
-                (int)trampoline.Position.X,
-                (int)trampoline.Position.Y,
-                trampoline.Width,
-                trampoline.Height);
 
-            Rectangle clownRect = new Rectangle(
-                (int)clown.Position.X,
-                (int)clown.Position.Y,
-                clown.Width,
-                clown.Height);
+
 
             // 6. Colisão
-            if (trampolineRect.Intersects(clownRect))
-            {
-                int angle = trampolineRect.Center.X - clownRect.Center.X + 90;
+            if (Collision.Intersects(trampoline, clown)){
+                int angle = trampoline.Bounds.Center.X - clown.Bounds.Center.X + 90;
 
                 clown.Velocity.X = 980f * (float)Math.Cos(MathHelper.ToRadians(angle));
                 clown.Velocity.Y = 980f * (float)Math.Sin(MathHelper.ToRadians(angle)) * -1;

@@ -12,6 +12,19 @@ namespace VictorMellos
         public int Width => Sprite.Texture.Width;
         public int Height => Sprite.Texture.Height;
 
+        public Rectangle Bounds
+        {
+            get
+            {
+                return new Rectangle(
+                    (int)Position.X,
+                    (int)Position.Y,
+                    Width,
+                    Height
+                );
+            }
+        }
+
         public Character(Vector2 initialPosition, Vector2 initialVelocity)
         {
             Position = initialPosition;
