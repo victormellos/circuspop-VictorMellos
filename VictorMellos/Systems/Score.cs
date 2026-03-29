@@ -1,3 +1,5 @@
+using System.IO.Compression;
+
 namespace VictorMellos;
 public class Score
 {

@@ -17,7 +17,7 @@ public class ClownGame : Game
 
     private SoundEffect bounce;
     
-    //private SpriteFont _textFont;
+    private SpriteFont _textFont;
 
 
 
@@ -52,10 +52,14 @@ public class ClownGame : Game
 
         bounce = Content.Load<SoundEffect>("bounce");
 
+        _textFont = Content.Load<SpriteFont>("ScoreFont"); 
+
         foreach (var player in players)
         {
             player.Clown.Sprite = new Sprite();
             player.Clown.Sprite.Texture = Content.Load<Texture2D>("clown");
+
+            
 
             player.Trampoline.Sprite = new Sprite();
             player.Trampoline.Sprite.Texture = Content.Load<Texture2D>("Trampoline");
@@ -65,11 +69,7 @@ public class ClownGame : Game
                     GraphicsDevice.Viewport.Height - player.Trampoline.Height
                 );
         }
-
-        // trampoline.Position = new Vector2(clown.Position.X - clown.Width, GraphicsDevice.Viewport.Height - trampoline.Height);
-
-        // maxX = GraphicsDevice.Viewport.Width - clown.Width;
-        // maxY = GraphicsDevice.Viewport.Height - clown.Height;   
+ 
 
     }
 
@@ -147,13 +147,26 @@ public class ClownGame : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
         _spriteBatch.Begin();
         
+        Vector2 scorePosition = new Vector2(10, 10);
+        float offsetY = 0f;
+
         foreach (var player in players)
         {
             _spriteBatch.Draw(player.Clown.Sprite.Texture, player.Clown.Position, Color.White);
             _spriteBatch.Draw(player.Trampoline.Sprite.Texture, player.Trampoline.Position, Color.White);
+
+            string scoreText = $"{player.Name} : {player.Score.Points}";
+            
+            _spriteBatch.DrawString(
+                _textFont,
+                scoreText,
+                new Vector2(scorePosition.X, scorePosition.Y + offsetY),
+                Color.White
+            );
+
+            offsetY += 30f; 
         }
 
         _spriteBatch.End();
