@@ -16,11 +16,25 @@ public class Player
     public Score Score;
 
     public string Name;
+    public int Lives;
+    private bool isAlive;
+    public bool IsAlive
+    {
+        get { return isAlive; }
+        set
+        {
+            isAlive = value;
 
+            if (!isAlive)
+            {
+                OnDeath();
+            }
+        }
+    }
     private Keys leftKey;
     private Keys rightKey;
 
-    public Player(Character trampoline, Character clown, Keys left, Keys right, string name = "Jogador")
+    public Player(Character trampoline, Character clown, Keys left, Keys right, string name = "Jogador", int lives = 5)
     {
         Trampoline = trampoline;
         Clown = clown;
@@ -28,6 +42,7 @@ public class Player
         Score = new Score();
 
         Name = name;
+        Lives = lives;
 
         leftKey = left;
         rightKey = right;
@@ -46,5 +61,9 @@ public class Player
         GamePadState padState = GamePad.GetState(PlayerIndex.One);
         Trampoline.Position.X += padState.ThumbSticks.Left.X * 15f;
     }
+        private void OnDeath()
+        {  
+            Clown = null;
+        }
 }
 }

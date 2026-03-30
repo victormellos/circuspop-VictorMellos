@@ -91,6 +91,9 @@ public class ClownGame : Game
        foreach (var player in players)
         {
             var clown = player.Clown;
+            if (clown == null)
+                continue;
+
             var trampoline = player.Trampoline;
 
             // 1. Clamp do trampolim
@@ -112,8 +115,16 @@ public class ClownGame : Game
 
             if (clown.Position.Y > maxY)
             {
-                clown.Velocity.Y *= -1;
-                clown.Position.Y = maxY;
+                player.Score.AddPoints(-1200);
+                player.Lives --;
+
+                if (player.Lives <= 0)
+                {
+                    player.IsAlive = false;
+                }
+                
+                clown.Position = trampoline.Position + new Vector2(trampoline.Height, 0);
+
             }
 
             if (clown.Position.X > maxX)
@@ -154,10 +165,14 @@ public class ClownGame : Game
 
         foreach (var player in players)
         {
-            _spriteBatch.Draw(player.Clown.Sprite.Texture, player.Clown.Position, Color.White);
+            if (player.Clown != null)
+            {
+                _spriteBatch.Draw(player.Clown.Sprite.Texture, player.Clown.Position, Color.White);
+            }
+            
             _spriteBatch.Draw(player.Trampoline.Sprite.Texture, player.Trampoline.Position, Color.White);
 
-            string scoreText = $"{player.Name} : {player.Score.Points}";
+            string scoreText = $"{player.Name} : {player.Score.Points}\nVidas: {player.Lives}";
             
             _spriteBatch.DrawString(
                 _textFont,
