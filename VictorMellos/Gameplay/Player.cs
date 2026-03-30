@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace VictorMellos
@@ -34,13 +35,16 @@ public class Player
 
     public void HandleInput()
     {
-        var keyboard = Keyboard.GetState();
+        KeyboardState keyboard = Keyboard.GetState();
 
         if (keyboard.IsKeyDown(leftKey))
             Trampoline.Position.X -= 10f;
 
         if (keyboard.IsKeyDown(rightKey))
             Trampoline.Position.X += 10f;
+
+        GamePadState padState = GamePad.GetState(PlayerIndex.One);
+        Trampoline.Position.X += padState.ThumbSticks.Left.X * 15f;
     }
 }
 }
