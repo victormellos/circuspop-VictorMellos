@@ -38,12 +38,13 @@ public class ClownGame : Game
     {
         // TODO: Add your initialization logic here
 
-        players = new List<Player>();
-
-        var clown1 = new Character(new Vector2(100f, 120f), Vector2.Zero);
-        var trampoline1 = new Character(new Vector2(100f, 400f), Vector2.Zero);
-
-        players.Add(new Player(trampoline1, clown1, Keys.Left, Keys.Right));
+        switch (gameState)
+        {
+            case GameState.Playing:
+                gameScreen = new GameScreen(GraphicsDevice, Content, players);
+                gameScreen.Initialize();
+                break;
+        }
 
         base.Initialize();
     }
@@ -53,7 +54,6 @@ public class ClownGame : Game
         switch (gameState)
         {
             case GameState.Playing:
-                gameScreen = new GameScreen(GraphicsDevice, Content, players);
                 gameScreen.LoadContent();
                 break;
         }

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System;
+using Microsoft.Xna.Framework.Input;
 
 namespace VictorMellos;
 
@@ -49,7 +50,16 @@ class GameScreen
         }
  
     }
+    public void Initialize()
+    {
+        players = new List<Player>();
 
+        var clown1 = new Character(new Vector2(100f, 120f), Vector2.Zero);
+        var trampoline1 = new Character(new Vector2(100f, 400f), Vector2.Zero);
+
+        players.Add(new Player(trampoline1, clown1, Keys.Left, Keys.Right));
+
+    }
     public void Update(GameTime gameTime)
     {
             /*
