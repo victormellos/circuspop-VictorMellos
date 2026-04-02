@@ -25,7 +25,7 @@ class GameScreen
     private Random random = new Random();
     private List<Rectangle> balloonAreas = new();
 
-    
+    private Delay RespawnTimer = new Delay(500.0);    
 
     private Balloon balloon;
 
@@ -190,14 +190,23 @@ class GameScreen
             if (clown.Position.Y > (maxY + clown.Height))
             {
                 player.Score.AddPoints(-1200);
-                player.Lives --;
+                player.Lives--;
+
+
+                RespawnTimer.Wait(gameTime, () =>
+                {
+                    clown.Position = trampoline.Position + new Vector2(trampoline.Width / 2, -clown.Height);
+
+                    clown.Velocity = Vector2.Zero;
+                });
+            
 
                 if (player.Lives <= 0)
                 {
                     player.IsAlive = false;
                 }
-                
-                clown.Position = trampoline.Position + new Vector2(trampoline.Height, 0);
+
+
 
             }
 
@@ -230,7 +239,7 @@ class GameScreen
 
                 if (Collision.Intersects(clown, balloon))
                 {
-                    player.Score.AddPoints(200); //trocar para balloon.value depois
+                    player.Score.AddPoints(balloon.Value);
                     balloons.RemoveAt(i);
                 }
             }
