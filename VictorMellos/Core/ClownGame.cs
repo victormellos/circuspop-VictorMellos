@@ -25,10 +25,11 @@ public class ClownGame : Game
 
     public ClownGame()
     {
-        _graphics = new GraphicsDeviceManager(this);
-
-        _graphics.PreferredBackBufferWidth = 800;
-        _graphics.PreferredBackBufferHeight = 500;
+        _graphics = new GraphicsDeviceManager(this)
+        {
+            PreferredBackBufferWidth = 800,
+            PreferredBackBufferHeight = 500
+        };
 
         Content.RootDirectory = "Content";
         IsMouseVisible = true;

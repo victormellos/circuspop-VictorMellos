@@ -100,7 +100,7 @@ class GameScreen
             int maxX = _graphicsDevice.Viewport.Width - clown.Width;
             int maxY = _graphicsDevice.Viewport.Height - clown.Height;
 
-            if (clown.Position.Y > maxY)
+            if (clown.Position.Y > (maxY + clown.Height))
             {
                 player.Score.AddPoints(-1200);
                 player.Lives --;
