@@ -2,7 +2,7 @@
 TODO: 
 - Rankings
 - Delay when respawning
-- Trampoline.cs
+- Add different screen compatibility
 - Cool new sprites
 - Pause, character select and options menu
 - Local Multiplayer
