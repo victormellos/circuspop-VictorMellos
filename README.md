@@ -6,5 +6,6 @@ TODO:
 - Cool new sprites
 - Pause, character select and options menu
 - Local Multiplayer
-- FIX balloon size and spawn location
+- FIX balloon size, collision and spawn location
+- Background music and more sounds
 
