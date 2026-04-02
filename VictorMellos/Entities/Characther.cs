@@ -29,6 +29,7 @@ namespace VictorMellos
         {
             Position = initialPosition;
             Velocity = initialVelocity;
+            
         }
         public void Update(GameTime gameTime)
         {

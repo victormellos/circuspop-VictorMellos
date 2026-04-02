@@ -14,7 +14,7 @@ public class ClownGame : Game
     private GraphicsDeviceManager _graphics;
     // private SpriteBatch _spriteBatch;
 
-    private List<Player> players;
+    // private List<Player> players;
 
     // private SoundEffect bounce;
     
@@ -42,7 +42,7 @@ public class ClownGame : Game
         switch (gameState)
         {
             case GameState.Playing:
-                gameScreen = new GameScreen(GraphicsDevice, Content, players);
+                gameScreen = new GameScreen(GraphicsDevice, Content);// new List<Player>());
                 gameScreen.Initialize();
                 break;
         }

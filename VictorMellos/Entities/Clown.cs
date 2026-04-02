@@ -11,8 +11,5 @@ namespace VictorMellos
     : base(initialPosition, Vector2.Zero)
     {
     }
-
-
-
     }
 }
