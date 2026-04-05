@@ -64,6 +64,7 @@ public class Player
         private void OnDeath()
         {  
             Clown = null;
+            Score.ResetCombo();
         }
 }
 }

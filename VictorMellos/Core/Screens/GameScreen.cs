@@ -12,6 +12,8 @@ namespace VictorMellos;
 class GameScreen
 {
     private SoundEffect bounce;
+    private SoundEffect pop;
+
     private SpriteFont _textFont;
     private SpriteBatch _spriteBatch;
 
@@ -19,8 +21,11 @@ class GameScreen
     
     private List<Player> players;
     private ContentManager _content;
+    
 
-    private Rectangle spawnArea;
+    //private Rectangle spawnArea;
+
+    private bool created;
 
     private Random random = new Random();
     private List<Rectangle> balloonAreas = new();
@@ -37,66 +42,37 @@ class GameScreen
         _content = content;
         // this.players = players;
     }
-    
-    private Vector2 GetBalloonSpawnPosition()
-    {
-        int balloonWidth = 64;
-        int balloonHeight = 64;
 
-
-        while (true)
-        {
-            int x = random.Next(
-                spawnArea.Left,
-                spawnArea.Right - balloonWidth
-            );
-
-            int y = random.Next(
-                spawnArea.Top,
-                spawnArea.Bottom - balloonHeight
-            );
-
-            Rectangle newArea = new Rectangle(x, y, balloonWidth, balloonHeight);
-
-            bool occupied = false;
-
-            foreach (Rectangle area in balloonAreas)
-            {
-                if (area.Intersects(newArea))
-                {
-                    occupied = true;
-                    break;
-                }
-            }
-
-            if (!occupied)
-            {
-                balloonAreas.Add(newArea);
-                return new Vector2(x, y);
-            }
-        }
-    }
 
     public void CreateBalloons(int quantity)
-    {
-        int marginX = 80;
-        int topMargin = 70;
-        int bottomMargin = 180;
-
-        spawnArea = new Rectangle(
-            marginX,
-            topMargin,
-            _graphicsDevice.Viewport.Width - marginX * 2,
-            _graphicsDevice.Viewport.Height - topMargin - bottomMargin
-        );
-
-        balloons.Clear();
-
-        for (int i = 0; i < quantity; i++)
+{
+    if (created)
         {
-            Vector2 position = GetBalloonSpawnPosition();
+            return;
+        }
+    balloons.Clear();
 
-            Balloon balloonInstance = new Balloon(position, random.Next(200, 1001))
+    int balloonWidth = 64;
+    
+    int balloonHeight = 64;
+
+
+    int spacingX = -15  ;
+    int spacingY = 0;
+
+    int columns = (_graphicsDevice.Viewport.Width + spacingX) / (balloonWidth + spacingX);
+    
+    for (int i = 0; i < quantity; i++) 
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            int x = j * (balloonWidth + spacingX);
+            int y = i * (balloonHeight + spacingY);
+
+            Balloon balloonInstance = new Balloon(
+                new Vector2(x, y),
+                random.Next(200, 1001)
+            )
             {
                 Sprite = balloon.Sprite
             };
@@ -104,6 +80,9 @@ class GameScreen
             balloons.Add(balloonInstance);
         }
     }
+    created = true;
+}
+
     public void LoadContent()
     {  
         
@@ -116,6 +95,7 @@ class GameScreen
 
 
         bounce = _content.Load<SoundEffect>("bounce");
+        pop = _content.Load<SoundEffect>("pop");
         
         _textFont = _content.Load<SpriteFont>("ScoreFont");
                 foreach (var player in players)
@@ -133,7 +113,9 @@ class GameScreen
                     _graphicsDevice.Viewport.Height - player.Trampoline.Height
                 );
         }
+        
         CreateBalloons(10);
+        
     }
     public void Initialize()
     {
@@ -241,6 +223,7 @@ class GameScreen
                 {
                     player.Score.AddPoints(balloon.Value);
                     balloons.RemoveAt(i);
+                    pop.Play();
                 }
             }
         }
@@ -261,10 +244,17 @@ class GameScreen
             {
                 _spriteBatch.Draw(player.Clown.Sprite.Texture, player.Clown.Position, Color.White);
             }
+
+
             foreach (var balloon in balloons)
             {
-                _spriteBatch.Draw(balloon.Sprite.Texture, balloon.Position, Color.White);
+                _spriteBatch.Draw(
+                    balloon.Sprite.Texture,
+                    new Rectangle((int)balloon.Position.X, (int)balloon.Position.Y, 64, 64),
+                    Color.White
+                );
             }
+            
             _spriteBatch.Draw(player.Trampoline.Sprite.Texture, player.Trampoline.Position, Color.White);
 
             string scoreText = $"{player.Name} : {player.Score.Points}\nVidas: {player.Lives}";

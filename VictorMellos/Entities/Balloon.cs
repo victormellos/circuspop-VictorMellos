@@ -6,6 +6,9 @@ namespace VictorMellos
     {
     
     public int Value;
+    public override int Width => 64;
+    public override int Height => 64;
+
 
     public Balloon(Vector2 initialPosition, int value)
     : base(initialPosition, Vector2.Zero)
@@ -13,6 +16,13 @@ namespace VictorMellos
             Value = value;
             
         }
+
+    public new Rectangle Bounds => new Rectangle(
+        (int)Position.X,
+        (int)Position.Y,
+        Width,
+        Height
+    );
 
 
     

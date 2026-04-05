@@ -43,6 +43,12 @@
 /processorParam:TextureFormat=Color
 /build:clown.png
 
+#begin pop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:pop.wav
+
 #begin ScoreFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
