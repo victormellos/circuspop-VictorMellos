@@ -9,8 +9,8 @@ namespace VictorMellos
         public Vector2 Velocity;
         public Sprite Sprite;
 
-        public virtual int Width => Sprite.Texture.Width;
-        public virtual int Height => Sprite.Texture.Height;
+        public virtual int Width { get; set; }
+        public virtual int Height { get; set; }
 
         public virtual Rectangle Bounds
         {

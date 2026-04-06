@@ -6,8 +6,8 @@ namespace VictorMellos
     {
     
     public int Value;
-    public override int Width => 64;
-    public override int Height => 64;
+    public override int Width { get; set; } = 64;
+    public override int Height { get; set; } = 64;
 
 
     public Balloon(Vector2 initialPosition, int value)

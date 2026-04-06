@@ -68,7 +68,10 @@ class GameScreen
                 random.Next(200, 1001)
             )
             {
-                Sprite = balloon.Sprite
+                Sprite = balloon.Sprite,
+                Width = balloon.Width,
+                Height = balloon.Height
+
             };
 
             balloons.Add(balloonInstance);
@@ -95,11 +98,16 @@ class GameScreen
         {
             player.Clown.Sprite = new Sprite();
             player.Clown.Sprite.Texture = _content.Load<Texture2D>("images/clown");
+            player.Clown.Width = player.Clown.Sprite.Texture.Width;
+            player.Clown.Height = player.Clown.Sprite.Texture.Height;
 
             
 
             player.Trampoline.Sprite = new Sprite();
             player.Trampoline.Sprite.Texture = _content.Load<Texture2D>("images/Trampoline");
+            player.Trampoline.Width = player.Trampoline.Sprite.Texture.Width;
+            player.Trampoline.Height = player.Trampoline.Sprite.Texture.Height;
+
 
                 player.Trampoline.Position = new Vector2(
                     player.Trampoline.Position.X,
