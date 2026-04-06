@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System;
 using Microsoft.Xna.Framework.Input;
-using System.Reflection.Metadata;
 
 namespace VictorMellos;
 
@@ -23,9 +22,8 @@ class GameScreen
     private ContentManager _content;
     
 
-    //private Rectangle spawnArea;
-
-    private bool created;
+    private Level level = new Level(1);
+    private int level_Number;
 
     private Random random = new Random();
     private List<Rectangle> balloonAreas = new();
@@ -46,10 +44,6 @@ class GameScreen
 
     public void CreateBalloons(int quantity)
 {
-    if (created)
-        {
-            return;
-        }
     balloons.Clear();
 
     int balloonWidth = 64;
@@ -80,7 +74,6 @@ class GameScreen
             balloons.Add(balloonInstance);
         }
     }
-    created = true;
 }
 
     public void LoadContent()
@@ -114,7 +107,6 @@ class GameScreen
                 );
         }
         
-        CreateBalloons(10);
         
     }
     public void Initialize()
@@ -139,11 +131,16 @@ class GameScreen
     Colisão
     Resposta da colisão
     */
-            foreach (var player in players)
+        foreach (var player in players)
         {
             player.HandleInput();
         }
-        
+        if (balloons.Count == 0)
+        {
+            level_Number++;
+            level = new Level(level_Number);
+            CreateBalloons(level.Diff);
+        }
         foreach (var player in players)
         {
             
