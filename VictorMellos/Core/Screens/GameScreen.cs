@@ -91,22 +91,22 @@ class GameScreen
         // balloonTexture = _content.Load<Texture2D>("balloon");
         balloon = new Balloon(Vector2.Zero, 0);
         balloon.Sprite = new Sprite();
-        balloon.Sprite.Texture = _content.Load<Texture2D>("balloon");
+        balloon.Sprite.Texture = _content.Load<Texture2D>("images/balloon");
 
 
-        bounce = _content.Load<SoundEffect>("bounce");
-        pop = _content.Load<SoundEffect>("pop");
+        bounce = _content.Load<SoundEffect>("sounds/bounce");
+        pop = _content.Load<SoundEffect>("sounds/pop");
         
-        _textFont = _content.Load<SpriteFont>("ScoreFont");
+        _textFont = _content.Load<SpriteFont>("fonts/ScoreFont");
                 foreach (var player in players)
         {
             player.Clown.Sprite = new Sprite();
-            player.Clown.Sprite.Texture = _content.Load<Texture2D>("clown");
+            player.Clown.Sprite.Texture = _content.Load<Texture2D>("images/clown");
 
             
 
             player.Trampoline.Sprite = new Sprite();
-            player.Trampoline.Sprite.Texture = _content.Load<Texture2D>("Trampoline");
+            player.Trampoline.Sprite.Texture = _content.Load<Texture2D>("images/Trampoline");
 
                 player.Trampoline.Position = new Vector2(
                     player.Trampoline.Position.X,
