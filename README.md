@@ -2,7 +2,7 @@
 TODO: 
 - Rankings
 - Better respawn mechanic
-- Add different screen compatibility
+- Add different device compatibility
 - Cool new sprites
 - Pause, character select and options menu
 - Local Multiplayer
