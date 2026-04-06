@@ -60,6 +60,14 @@ public class Player
 
         GamePadState padState = GamePad.GetState(PlayerIndex.One);
         Trampoline.Position.X += padState.ThumbSticks.Left.X * 15f;
+
+        //      DEBUG  ------- REMOVER DEPOIS
+
+        if (keyboard.IsKeyDown(Keys.I))
+        {
+                Lives = 999;
+        }
+
     }
         private void OnDeath()
         {  
