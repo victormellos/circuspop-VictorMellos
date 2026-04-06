@@ -26,7 +26,6 @@ class GameScreen
     private int level_Number;
 
     private Random random = new Random();
-    private List<Rectangle> balloonAreas = new();
 
     private Delay RespawnTimer = new Delay(500.0);    
 
