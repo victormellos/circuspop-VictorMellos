@@ -146,10 +146,7 @@ class GameScreen
         
         foreach (var player in players)
         {
-            var clown = player.Clown;
-            if (clown == null)
-                continue;
-
+            
             var trampoline = player.Trampoline;
 
             // Clamp do trampolim
@@ -158,6 +155,11 @@ class GameScreen
                 0,
                 _graphicsDevice.Viewport.Width - trampoline.Width
             );
+            
+            var clown = player.Clown;
+            if (clown == null)
+                continue;
+
 
             // Movimento do clown
             clown.Position += clown.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
