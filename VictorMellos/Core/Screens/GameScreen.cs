@@ -43,41 +43,41 @@ class GameScreen
 
 
     public void CreateBalloons(int quantity)
-{
-    balloons.Clear();
-
-    int balloonWidth = 64;
-    
-    int balloonHeight = 64;
-
-
-    int spacingX = -15  ;
-    int spacingY = 0;
-
-    int columns = (_graphicsDevice.Viewport.Width + spacingX) / (balloonWidth + spacingX);
-    
-    for (int i = 0; i < quantity; i++) 
     {
-        for (int j = 0; j < columns; j++)
+        balloons.Clear();
+
+        int spacingX = 4;
+        int spacingY = 4;
+
+        int rows = quantity;
+
+        int balloonSize = (_graphicsDevice.Viewport.Height - ((rows - 1) * spacingY)) / rows;
+
+        balloonSize = Math.Clamp(balloonSize, 16, 48);
+
+        int columns = (_graphicsDevice.Viewport.Width + spacingX) / (balloonSize + spacingX);
+
+        for (int y = 0; y < rows; y++)
         {
-            int x = j * (balloonWidth + spacingX);
-            int y = i * (balloonHeight + spacingY);
-
-            Balloon balloonInstance = new Balloon(
-                new Vector2(x, y),
-                random.Next(200, 1001)
-            )
+            for (int x = 0; x < columns; x++)
             {
-                Sprite = balloon.Sprite,
-                Width = balloon.Width,
-                Height = balloon.Height
+                Balloon balloonInstance = new Balloon(
+                    new Vector2(
+                        x * (balloonSize + spacingX),
+                        y * (balloonSize + spacingY)
+                    ),
+                    random.Next(200, 1001)
+                )
+                {
+                    Sprite = balloon.Sprite,
+                    Width = balloonSize,
+                    Height = balloonSize
+                };
 
-            };
-
-            balloons.Add(balloonInstance);
+                balloons.Add(balloonInstance);
+            }
         }
     }
-}
 
     public void LoadContent()
     {  
