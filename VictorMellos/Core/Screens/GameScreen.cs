@@ -168,10 +168,18 @@ class GameScreen
             // Movimento do clown
             clown.Position += clown.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            // Gravidade
-            clown.Velocity.Y += 16f;
+        
+            
+            float baseSpeed = 980f;
+            float comboMultiplier = 1f + (player.Score.Combo * 0.08f);
 
-            // Limites da tela
+            comboMultiplier = Math.Min(2f, comboMultiplier);
+
+            float speed = baseSpeed * comboMultiplier;
+
+            // Gravidade
+            clown.Velocity.Y += 16f * comboMultiplier;
+
             int maxX = _graphicsDevice.Viewport.Width - clown.Width;
             int maxY = _graphicsDevice.Viewport.Height - clown.Height;
 
@@ -179,6 +187,7 @@ class GameScreen
             {
                 player.Score.AddPoints(-1200);
                 player.Lives--;
+                player.Score.ResetCombo();
 
 
                 RespawnTimer.Wait(gameTime, () =>
@@ -209,13 +218,6 @@ class GameScreen
                 clown.Position.X = 0;
             }
 
-
-            float baseSpeed = 980f;
-            //float comboMultiplier = 1f + (player.Score.Combo * 0.08f); deixar isso pra DEPOIS
-
-            //comboMultiplier = Math.Min(3f, comboMultiplier);
-
-            float speed = baseSpeed; //* comboMultiplier;
 
             // Colisão
             if (Collision.Intersects(trampoline, clown)){
