@@ -210,14 +210,19 @@ class GameScreen
             }
 
 
+            float baseSpeed = 980f;
+            //float comboMultiplier = 1f + (player.Score.Combo * 0.08f); deixar isso pra DEPOIS
 
+            //comboMultiplier = Math.Min(3f, comboMultiplier);
+
+            float speed = baseSpeed; //* comboMultiplier;
 
             // Colisão
             if (Collision.Intersects(trampoline, clown)){
                 int angle = trampoline.Bounds.Center.X - clown.Bounds.Center.X + 90;
 
-                clown.Velocity.X = 980f * (float)Math.Cos(MathHelper.ToRadians(angle));
-                clown.Velocity.Y = 980f * (float)Math.Sin(MathHelper.ToRadians(angle)) * -1;
+                clown.Velocity.X = speed * (float)Math.Cos(MathHelper.ToRadians(angle));
+                clown.Velocity.Y = speed * (float)Math.Sin(MathHelper.ToRadians(angle)) * -1;
 
                 bounce.Play();
             }
