@@ -12,7 +12,8 @@ namespace VictorMellos;
 
 public class MainMenu
 {
-    // private SpriteFont _textFont;
+    private SpriteFont _textFont;
+
     private SpriteBatch _spriteBatch;
 
     private GraphicsDevice _graphicsDevice;
@@ -36,6 +37,7 @@ public class MainMenu
 
     public void LoadContent()
     {
+        _textFont = _content.Load<SpriteFont>("fonts/ScoreFont");
 
 
     }
@@ -53,6 +55,12 @@ public class MainMenu
         _graphicsDevice.Clear(Color.YellowGreen);
 
         _spriteBatch.Begin();
+        _spriteBatch.DrawString(
+            _textFont,
+            "JOGO LEGAL DO PALHACO FELIZ",
+            new Vector2(0, 0),
+            Color.White
+        );
         _spriteBatch.End();
     }
 }
