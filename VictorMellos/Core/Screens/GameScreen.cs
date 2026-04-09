@@ -274,7 +274,7 @@ class GameScreen
             
             _spriteBatch.Draw(player.Trampoline.Sprite.Texture, player.Trampoline.Position, Color.White);
 
-            string scoreText = $"{player.Name} : {player.Score.Points}\n{(player.Lives <=0 ? "Morto!" : $"Vidas: {player.Lives}")}";
+            string scoreText = $"{player.Name} : {player.Score.Points}\n{(player.Lives <=0 ? "Morto!" : $"Vidas: {player.Lives}")}\n{(player.Score.Combo <=0 ? null : $"Combo : {player.Score.Combo}")}";
             
             _spriteBatch.DrawString(
                 _textFont,
