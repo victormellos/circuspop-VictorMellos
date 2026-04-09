@@ -21,6 +21,7 @@ public class ClownGame : Game
     // private SpriteFont _textFont;
 
     private GameScreen gameScreen;
+    private MainMenu mainMenu;
     private GameState gameState = GameState.Playing;
 
     public ClownGame()
@@ -45,6 +46,9 @@ public class ClownGame : Game
                 gameScreen = new GameScreen(GraphicsDevice, Content);// new List<Player>());
                 gameScreen.Initialize();
                 break;
+            case GameState.MainMenu:
+                mainMenu.Initialize();
+                break;
         }
 
         base.Initialize();
@@ -57,6 +61,10 @@ public class ClownGame : Game
             case GameState.Playing:
                 gameScreen.LoadContent();
                 break;
+            case GameState.MainMenu:
+                mainMenu.LoadContent();
+                break;
+                
         }
         // _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -78,8 +86,8 @@ public class ClownGame : Game
             case GameState.Playing:
                 gameScreen.Update(gameTime);
                 break;
-            default:
-                Console.Write("Erro esquisitão");
+            case GameState.MainMenu:
+                mainMenu.Update(gameTime);
                 break;
         }
         base.Update(gameTime);
@@ -91,6 +99,9 @@ public class ClownGame : Game
         {
             case GameState.Playing:
                 gameScreen.Draw();
+                break;
+            case GameState.MainMenu:
+                mainMenu.Draw();
                 break;
         }
 

@@ -1,6 +1,55 @@
+using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+using System.Collections.Generic;
+using System.Data;
+using Microsoft.Xna.Framework.Content;
+
+
 namespace VictorMellos;
 
 public class MainMenu
 {
+    private SpriteFont _textFont;
+    private SpriteBatch _spriteBatch;
+
+    private GraphicsDevice _graphicsDevice;
     
-}  
+    private List<Player> players;
+    private ContentManager _content;
+    
+    private GameState gameState = GameState.MainMenu;
+
+    public MainMenu()
+    {
+
+    }
+
+    public void Initialize()
+    {
+
+    }
+
+    public void LoadContent()
+    {
+
+
+    }
+
+    public void Update(GameTime gameTime)
+
+    {
+        
+        
+    }
+
+    public void Draw()
+    {
+
+        _graphicsDevice.Clear(Color.YellowGreen);
+
+        _spriteBatch.Begin();
+    }
+}
