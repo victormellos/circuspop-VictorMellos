@@ -171,10 +171,10 @@ class GameScreen
         
             
             float baseSpeed = 980f;
-            float comboMultiplier = 1f + (player.Score.Combo * 0.08f);
+            float comboMultiplier = 1f + (player.Score.Combo * 0.0008f);
 
-            comboMultiplier = Math.Min(2f, comboMultiplier);
-
+            //comboMultiplier = Math.Min(1.5f, comboMultiplier);
+            
             float speed = baseSpeed * comboMultiplier;
 
             // Gravidade
@@ -217,7 +217,11 @@ class GameScreen
                 clown.Velocity.X *= -1;
                 clown.Position.X = 0;
             }
-
+            else if (clown.Position.Y < -10)
+            {
+                clown.Velocity.Y *= -1;
+                clown.Position.Y = -10;
+            }
 
             // Colisão
             if (Collision.Intersects(trampoline, clown)){
