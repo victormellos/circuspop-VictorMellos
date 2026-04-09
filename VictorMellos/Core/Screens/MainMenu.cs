@@ -12,21 +12,23 @@ namespace VictorMellos;
 
 public class MainMenu
 {
-    private SpriteFont _textFont;
+    // private SpriteFont _textFont;
     private SpriteBatch _spriteBatch;
 
     private GraphicsDevice _graphicsDevice;
     
-    private List<Player> players;
+    // private List<Player> players;
     private ContentManager _content;
     
-    private GameState gameState = GameState.MainMenu;
+    // private GameState gameState = GameState.MainMenu;
 
-    public MainMenu()
+    public MainMenu(GraphicsDevice graphicsDevice, ContentManager content)
     {
-
+        _graphicsDevice = graphicsDevice;
+        _content = content;
+        _spriteBatch = new SpriteBatch(graphicsDevice);
     }
-
+    
     public void Initialize()
     {
 
@@ -51,5 +53,6 @@ public class MainMenu
         _graphicsDevice.Clear(Color.YellowGreen);
 
         _spriteBatch.Begin();
+        _spriteBatch.End();
     }
 }
