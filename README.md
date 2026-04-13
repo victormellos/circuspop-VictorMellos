@@ -7,4 +7,5 @@ TODO:
 - Pause, character select and options menu
 - Local Multiplayer
 - Background music and more sounds
+- Change "GameState" into scenes
 
