@@ -61,6 +61,20 @@ public class MainMenu
             new Vector2(0, 0),
             Color.White
         );
+
+
+        string texto = "Pressione START para jogar";
+        Vector2 tamanho = _textFont.MeasureString(texto);
+
+        float posX = (_graphicsDevice.Viewport.Width - tamanho.X) / 2;
+        float posY = _graphicsDevice.Viewport.Height - tamanho.Y - 10;
+
+        _spriteBatch.DrawString(
+            _textFont,
+            texto,
+            new Vector2(posX, posY),
+            Color.White
+        );
         _spriteBatch.End();
     }
 }

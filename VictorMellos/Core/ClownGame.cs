@@ -22,7 +22,7 @@ public class ClownGame : Game
 
     private GameScreen gameScreen;
     private MainMenu mainMenu;
-    private GameState gameState = GameState.Playing;
+    private GameState gameState = GameState.MainMenu;
 
     public ClownGame()
     {
