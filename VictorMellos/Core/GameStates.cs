@@ -1,6 +1,6 @@
 namespace VictorMellos;
 
-enum GameState
+public enum GameState
 {
     MainMenu,
     CharacterSelect,

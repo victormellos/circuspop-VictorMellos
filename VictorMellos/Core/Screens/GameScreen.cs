@@ -123,12 +123,12 @@ class GameScreen
         var clown1 = new Character(new Vector2(100f, 120f), Vector2.Zero);
         var trampoline1 = new Character(new Vector2(100f, 400f), Vector2.Zero);
 
-        players.Add(new Player(trampoline1, clown1, Keys.Left, Keys.Right));
+        players.Add(new Player(trampoline1, clown1, Keys.Left, Keys.Right, PlayerIndex.One));
 
         
 
     }
-    public void Update(GameTime gameTime)
+    public void Update(GameTime gameTime, GameState gameState)
     {
             /*
     Ordem para verificar:
@@ -140,7 +140,8 @@ class GameScreen
     */
         foreach (var player in players)
         {
-            player.HandleInput();
+            player.UpdateInput();
+            player.HandleInput(gameState);
         }
         if (balloons.Count == 0)
         {

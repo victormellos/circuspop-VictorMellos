@@ -22,7 +22,7 @@ public class ClownGame : Game
 
     private GameScreen gameScreen;
     private MainMenu mainMenu;
-    private GameState gameState = GameState.MainMenu;
+    private GameState gameState = GameState.Playing;
 
     public ClownGame()
     {
@@ -85,7 +85,7 @@ public class ClownGame : Game
         switch (gameState)
         {
             case GameState.Playing:
-                gameScreen.Update(gameTime);
+                gameScreen.Update(gameTime, gameState);
                 break;
             case GameState.MainMenu:
                 mainMenu.Update(gameTime);

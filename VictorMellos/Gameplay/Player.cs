@@ -14,6 +14,8 @@ public class Player
     public Character Clown { get; private set; }
 
     public Score Score;
+    private KeyboardState keyboard;
+    private GamePadState gamepad;
 
     public string Name;
     public int Lives;
@@ -33,8 +35,9 @@ public class Player
     }
     private Keys leftKey;
     private Keys rightKey;
+    private PlayerIndex playerIndex;
 
-    public Player(Character trampoline, Character clown, Keys left, Keys right, string name = "Jogador", int lives = 5)
+    public Player(Character trampoline, Character clown, Keys left, Keys right, PlayerIndex playerIndex, string name = "Jogador", int lives = 5)
     {
         Trampoline = trampoline;
         Clown = clown;
@@ -46,11 +49,12 @@ public class Player
 
         leftKey = left;
         rightKey = right;
-    }
 
-    public void HandleInput()
+        this.playerIndex = playerIndex;
+    }
+    public void HandleInputGameplay()
     {
-        KeyboardState keyboard = Keyboard.GetState();
+
 
         if (keyboard.IsKeyDown(leftKey))
             Trampoline.Position.X -= 10f;
@@ -58,8 +62,8 @@ public class Player
         if (keyboard.IsKeyDown(rightKey))
             Trampoline.Position.X += 10f;
 
-        GamePadState padState = GamePad.GetState(PlayerIndex.One);
-        Trampoline.Position.X += padState.ThumbSticks.Left.X * 15f;
+        
+        Trampoline.Position.X += gamepad.ThumbSticks.Left.X * 15f;
 
         //      DEBUG  ------- REMOVER DEPOIS
 
@@ -68,6 +72,29 @@ public class Player
                 Lives = 999;
         }
 
+    }
+    public void UpdateInput()
+    {
+        keyboard = Keyboard.GetState();
+        gamepad = GamePad.GetState(playerIndex);
+    }
+    void HandleInputMainMenu()
+    {
+        
+    }
+    public void HandleInput(GameState gameState)
+    {
+
+        switch (gameState)
+        {
+            case GameState.Playing:
+                HandleInputGameplay();
+                break;
+
+            case GameState.MainMenu:
+                HandleInputMainMenu();
+                break;
+        }
     }
         private void OnDeath()
         {  
