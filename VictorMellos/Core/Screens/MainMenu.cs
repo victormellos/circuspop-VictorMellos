@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.Xna.Framework.Content;
+using System.ComponentModel;
 
 
 namespace VictorMellos;
@@ -20,6 +21,7 @@ public class MainMenu
     
     // private List<Player> players;
     private ContentManager _content;
+    private Texture2D background;
     
     // private GameState gameState = GameState.MainMenu;
 
@@ -38,7 +40,7 @@ public class MainMenu
     public void LoadContent()
     {
         _textFont = _content.Load<SpriteFont>("fonts/ScoreFont");
-
+        background = _content.Load<Texture2D>("images/background");        
 
     }
 
@@ -55,11 +57,14 @@ public class MainMenu
         _graphicsDevice.Clear(Color.YellowGreen);
 
         _spriteBatch.Begin();
+
+        _spriteBatch.Draw(background, new Rectangle(0, 0, _graphicsDevice.Viewport.Width, _graphicsDevice.Viewport.Height), new Color(255, 255, 255, 0.5f));
+
         _spriteBatch.DrawString(
             _textFont,
             "JOGO LEGAL DO PALHACO FELIZ",
             new Vector2(0, 0),
-            Color.White
+            Color.Black
         );
 
 
@@ -73,7 +78,7 @@ public class MainMenu
             _textFont,
             texto,
             new Vector2(posX, posY),
-            Color.White
+            Color.Black
         );
         _spriteBatch.End();
     }
